@@ -13,11 +13,12 @@
         :auto-expand-parent="false"
         :expand-on-click-node="false"
     >
-      <span slot-scope="{ node, data }" class="custom-tree-node">
+      <span slot-scope="{ node, data }" class="custom-tree-node" @mouseenter="handleMouseEnter(data)"
+            @mouseleave="handleMouseLeave(data)">
         <span class="tooltip">
           <span class="add-f-s-14">{{ data.name }}</span>
         </span>
-        <div v-if="node.isCurrent === true" class="operation-view">
+        <div v-show="data.show || node.isCurrent" class="operation-view">
           <i
               class="small-operation-btn el-icon-plus"
               @click.stop="handleAdd(data)"
@@ -66,7 +67,8 @@ export default {
         children: 'children',
         label: 'name'
       },
-      selectItem: {}
+      selectItem: {},
+      showOperationView: false
     }
   },
 
@@ -105,47 +107,69 @@ export default {
     treeEditItem(val) {
       Object.assign(this.selectItem, val)
       this.selectItem = {}
-    }
+    },
 
     // ============== 父组件回调事件 结束=============
 
+    handleMouseEnter(data) {
+      this.$set(data, 'show', true)
+    },
+
+    handleMouseLeave(data) {
+      this.$set(data, 'show', false)
+    }
   }
 }
 </script>
+
 <style lang="less">
-.structure-tree {
-  .el-scrollbar .el-scrollbar__wrap {
-    overflow-x: hidden;
-  }
+.white-body-view {
+  width: 300px;
 
-  #my-tree .el-tree > .el-tree-node {
-    min-width: 100%;
-    display: inline-block;
-  }
+  .structure-tree {
+    display: flex;
+    flex-direction: column;
 
-  .el-tree-node__content {
-    margin-bottom: 10px;
-  }
+    .el-scrollbar .el-scrollbar__wrap {
+      overflow-x: hidden;
+    }
 
-  .tooltip {
-    margin-right: 5px;
-    font-size: 13px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    padding: 4px;
-  }
+    #my-tree .el-tree > .el-tree-node {
+      min-width: 100%;
+      display: inline-block;
+    }
 
-  .operation-view {
-    display: inline-block;
-    padding: 0 5px;
-    margin-left: 5px;
-    color: #777777;
-  }
+    .el-tree-node__content {
+      margin-bottom: 10px;
+    }
 
-  .small-operation-btn {
-    margin: 0 3px;
+    .tooltip {
+      margin-right: 5px;
+      font-size: 13px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      padding: 4px;
+    }
+
+    .operation-view {
+      display: inline-block;
+      padding: 0 5px;
+      margin-left: 5px;
+      color: #777777;
+    }
+
+    .small-operation-btn {
+      margin: 0 3px;
+    }
+
+    .custom-tree-node {
+      justify-content: space-between;
+      display: flex;
+      width: 100%;
+    }
   }
 }
+
 
 </style>

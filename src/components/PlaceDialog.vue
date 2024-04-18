@@ -9,9 +9,6 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name"/>
         </el-form-item>
-        <el-form-item label="描述" prop="desc">
-          <el-input v-model="form.desc" resize="none" type="textarea"/>
-        </el-form-item>
         <el-form-item>
           <el-button class="pull-right" type="primary" @click="submitForm()">确定</el-button>
         </el-form-item>
@@ -27,15 +24,11 @@ export default {
       title: '',
       form: {
         name: '',
-        desc: ''
       },
       rules: {
         name: [
           {required: true, message: '请输入名称', trigger: 'blur'}
         ],
-        desc: [
-          {required: false, message: '请输入描述', trigger: 'blur'}
-        ]
       },
       isEdit: false,
       parentId: '',
@@ -67,7 +60,6 @@ export default {
     initFormData() {
       this.form = {
         name: '',
-        desc: ''
       }
     },
 
