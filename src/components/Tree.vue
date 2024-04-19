@@ -143,20 +143,9 @@ export default {
 
     // ============== 父组件回调事件 开始=============
 
-    // 添加新记录，树形列表回显
-    treeAddItem(data) {
-      this.$refs.tree.append(data, data.parentId)
-    },
-
     // 删除节点
     treeDeleteItem(val) {
       this.$refs.tree.remove(val)
-    },
-
-    // 修改记录，树形列表回显
-    treeEditItem(val) {
-      Object.assign(this.selectItem, val)
-      this.selectItem = {}
     },
 
     // ============== 父组件回调事件 结束=============
@@ -172,13 +161,14 @@ export default {
     // 新增表单数据
     addData(data) {
       // 新增树节点
-      this.treeAddItem(data)
+      this.$refs.tree.append(data, data.parentId)
     },
 
     // 修改表单数据
     editData(data) {
       // 修改树节点
-      this.treeEditItem(data)
+      Object.assign(this.selectItem, data)
+      this.selectItem = {}
     },
   }
 }
